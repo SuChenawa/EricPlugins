@@ -22,6 +22,7 @@ from library.decorator.distribute import Distribution
 from library.decorator.function_call import FunctionCall
 from library.decorator.switch import Switch
 from library.util.dispatcher import PrefixMatch
+from library.util.message import send_message
 
 channel = Channel.current()
 
@@ -56,7 +57,6 @@ async def ill(app: Ariadne, event: MessageEvent, at: ElementResult, text: RegexR
         target = text.result.display
     else:
         target = event.sender.name
-    await app.send_message(
-        event.sender.group if isinstance(event, GroupMessage) else event.sender,
-        MessageChain(random.choice(TEMPLATES).format(target=target)),
+    await send_message(
+        event, MessageChain(random.choice(TEMPLATES).format(target=target)), app.account
     )
